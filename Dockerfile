@@ -2,7 +2,7 @@ FROM alpine:3.3
 MAINTAINER Sven Strack <sven@so36.net>
 
 RUN addgroup -g 500 chuck \
-    && adduser -S -D -G chuck -u 500 chuck \
+    && adduser -S -D -G chuck -u 1000 chuck \
     && mkdir -p /build/docs \
     && chown -R chuck:chuck /build
 
@@ -26,15 +26,14 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     && rm -rf /var/cache/apk/* \
 
 
-
-WORKDIR /build
-VOLUME /build/docs
+#VOLUME /build/docs
 #USER chuck
-
-COPY conf conf
-COPY spelling_wordlist.txt spelling_wordlist.txt
+#WORKDIR /build
+COPY conf /build/conf
+COPY spelling_wordlist.txt /build/spelling_wordlist.txt
 COPY Makefile /build/Makefile
-#COPY docker-entrypoint.sh /build/entrypoint.sh
-ENTRYPOINT ["bin/ash"]
+#RUN chown -R chuck:chuck /build
+COPY docker-entrypoint.sh /build/entrypoint.sh
+ENTRYPOINT ["ash"]
 #ENTRYPOINT ["make"]
 #ENTRYPOINT ["/build/entrypoint.sh"]
