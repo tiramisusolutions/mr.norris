@@ -1,3 +1,12 @@
+This is the sandbox, which we use to test, you can run it with
+
+.. code-block:: console
+
+    docker run -it --rm -v ${PWD}/docs:/build/docs:rw --name dev1 norris-dev
+
+You will find yourself in the container :)
+
+
 # Mr. Norris
 Mr. Norris is a [docker container](https://www.docker.com "Docker Website") meant to be used in your CI setup [locally or hosted] to run some basic checks against your last commit[git].
 
