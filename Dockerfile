@@ -10,13 +10,21 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     apk update && apk add --no-cache \
     python \
     python-dev \
-    make \
-    gcc \
+    build-base \
     py-pip \
     enchant \
     gosu \
+    ca-certificates \
     && pip install --upgrade pip \
-    && pip install sphinx 
+    && pip install sphinx \
+    pyenchant \
+    sphinxcontrib-dashbuilder \
+    sphinxcontrib.gist \
+    sphinx-rtd-theme \
+    sphinxcontrib-spelling \
+    sphinxcontrib-osexample \
+    && rm -rf /var/cache/apk/* \
+
 
 
 WORKDIR /build
@@ -26,5 +34,7 @@ VOLUME /build/docs
 COPY conf conf
 COPY spelling_wordlist.txt spelling_wordlist.txt
 COPY Makefile /build/Makefile
-COPY docker-entrypoint.sh /build/entrypoint.sh
+#COPY docker-entrypoint.sh /build/entrypoint.sh
+ENTRYPOINT ["bin/ash"]
+#ENTRYPOINT ["make"]
 #ENTRYPOINT ["/build/entrypoint.sh"]
