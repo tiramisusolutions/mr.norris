@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.3
 MAINTAINER Sven Strack <sven@so36.net>
 
 RUN addgroup -g 500 chuck \
@@ -6,23 +6,17 @@ RUN addgroup -g 500 chuck \
     && mkdir -p /build/docs \
     && chown -R chuck:chuck /build
 
-RUN apk add --no-cache --virtual \
+RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
+    apk update && apk add --no-cache \
     python \
     python-dev \
-    build-base \
-    ca-certificates \
+    make \
+    gcc \
     py-pip \
     enchant \
-    aspell-en \
     gosu \
     && pip install --upgrade pip \
-    && pip install sphinx \
-    pyenchant \
-    sphinxcontrib-dashbuilder \
-    sphinxcontrib.gist \
-    sphinx-rtd-theme \
-    sphinxcontrib-spelling \
-    sphinxcontrib-osexample
+    && pip install sphinx 
 
 
 WORKDIR /build
